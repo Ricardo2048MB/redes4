@@ -1,0 +1,12 @@
+deny | permit _protocolo {_prefijo-ipv6-origen/longitud-prefijo | any | host _dirección-ipv6-origen} [_operador [_puerto]] {_prefijo-ipv6-destino/longitud-prefijo | any | host _dirección-ipv6-destino} [_operador [_puerto]]
+
+Forma compacta del comando para crear una ACE
+
+deny | permit _protocolo {origen} [_operador [_puerto]] {destino} [_operador [_puerto]]
+
+Origen y destino pueden tener ésta forma
+
+{_prefijo-ipv6/longitud-prefijo | any | host _dirección-ipv6}
+
+deny tcp 2001:AB:CC::/48 2001:AB:CC::5 eq 443
+deny tcp 2001:AB:CC::/48 2001:AB:CC::5 eq 80
