@@ -1,0 +1,20 @@
+ipv6 access-list <etiqueta>
+##se pone así como sigue por que se niega el acceso completo desde ipv6 porque abarca más
+deny ipv6 host <ipv6> host <ipv6-server>
+#####config config acl
+
+## aplicar en el router
+interface gi 0/0
+##la etiqueta es case sensitive
+ipv6 traffic-filter <etiqueta> out
+##config config if
+
+####protocolo de orígen tcp - http 80 y https 443
+####dns - udp 53
+####ssh - tcp 22
+
+ipv6 access-list <etiqueta>
+deny ipv6 host <ipv6> host <ipv6_server> eq <num-p>
+permit tcp any host <ipv6-server> eq 80
+permit tcp any host <ipv6-server> eq 443
+permit tcp any host <ipv6-server> eq 53
