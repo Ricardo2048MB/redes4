@@ -1,0 +1,165 @@
+!=================================Topología===============================================
+GI 0/0          RED: 192.23.0.0/22      WILDCARD: 0.0.3.255     MÁSCARA: 255.255.252.0
+DOCENTES        RED: 192.23.0.0/24      WILDCARD: 0.0.0.255     MÁSCARA: 255.255.255.0
+ALUMNOS         RED: 192.23.1.0/24      WILDCARD: 0.0.0.255     MÁSCARA: 255.255.255.0
+EXALUMNOS       RED: 192.23.2.0/24      WILDCARD: 0.0.0.255     MÁSCARA: 255.255.255.0
+
+
+GI 0/1          RED: 192.23.3.0/22      WILDCARD: 0.0.3.255     MÁSCARA: 255.255.252.0
+SEGURIDAD       RED: 192.23.3.0/24      WILDCARD: 0.0.0.255     MÁSCARA: 255.255.255.0
+S2              RED: 192.23.4.0/24      WILDCARD: 0.0.0.255     MÁSCARA: 255.255.255.0
+S3              RED: 192.23.5.0/24      WILDCARD: 0.0.0.255     MÁSCARA: 255.255.255.0
+
+!====================================VLANS================================================
+enable
+configure terminal
+hostname Quimica
+vlan 10
+name Docentes
+vlan 20
+name Alumnos
+vlan 30
+name Exalumnos
+interface range fa 0/1-5
+switchport mode access
+switchport access vlan 10
+interface range fa 0/6-10
+switchport mode access
+switchport access vlan 20
+interface range fa 0/11-15
+switchport mode access
+switchport access vlan 30
+end
+show vlan brief
+exit
+!===========================
+enable
+configure terminal
+hostname Ingenieria
+vlan 10
+name Docentes
+vlan 20
+name Alumnos
+vlan 30
+name Exalumnos
+interface range fa 0/1-5
+switchport mode access
+switchport access vlan 10
+interface range fa 0/6-10
+switchport mode access
+switchport access vlan 20
+interface range fa 0/11-15
+switchport mode access
+switchport access vlan 30
+end
+show vlan brief
+exit
+!===========================
+enable
+configure terminal
+hostname ControlEscolar
+vlan 10
+name Docentes
+vlan 20
+name Alumnos
+vlan 30
+name Exalumnos
+end
+show vlan brief
+exit
+!=============================================Enlaces troncales==========================
+!===================Control escolar==========================
+enable
+configure terminal
+!========Para Química con 3 cables===========
+interface range fa 0/18-20
+channel-group 1 mode desirable
+!========Para Ingeniería con 4 cables===========
+interface range fa 0/21-24
+channel-group 2 mode desirable
+!=======Configuración idéntica en ambos canales======================
+!================================================Canal 1==================================
+interface port-channel 1
+switchport trunk encapsulation dot1q
+switchport trunk native vlan 99
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99
+!================================================Canal 2==================================
+interface port-channel 2
+switchport trunk encapsulation dot1q
+switchport trunk native vlan 99
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99
+end
+exit
+!=======================================Química============================================
+enable
+configure terminal
+!=================Enlace troncal de Química=======
+interface range fa 0/22-24
+channel-group 1 mode desirable
+!============configuración======================
+interface port-channel 1
+switchport trunk encapsulation dot1q
+switchport trunk native vlan 99
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99
+end
+exit
+!=================================Ingeniería=================================================
+enable
+configure terminal
+!=================Enlace troncal de Ingeniería=======
+interface range fa 0/21-24
+channel-group 2 mode desirable
+!============configuración======================
+interface port-channel 2
+switchport trunk encapsulation dot1q
+switchport trunk native vlan 99
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99
+!========================================================================================
+end
+exit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
