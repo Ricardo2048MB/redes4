@@ -9,7 +9,7 @@ GI 0/1          RED: 192.23.3.0/22      WILDCARD: 0.0.3.255     MÁSCARA: 255.25
 SEGURIDAD       RED: 192.23.3.0/24      WILDCARD: 0.0.0.255     MÁSCARA: 255.255.255.0
 S2              RED: 192.23.4.0/24      WILDCARD: 0.0.0.255     MÁSCARA: 255.255.255.0
 S3              RED: 192.23.5.0/24      WILDCARD: 0.0.0.255     MÁSCARA: 255.255.255.0
-
+No le hagan caso a esto
 !====================================VLANS================================================
 enable
 configure terminal
@@ -121,31 +121,56 @@ switchport trunk allowed vlan 10,20,30,99
 !========================================================================================
 end
 exit
-!=========================Spanning tree===============
-!=========================Árbol de expansión==========
+!=============================Router 1====================================================
 enable
 configure terminal
-spanning-tree
-vlan 10 priority 24576
 
-multicapa
+
+
+hostname R1
+
+
+
+interface gi 0/0
+ip address 192.23.6.1 255.255.255.0
+no shutdown
+
+
+
+interface gi 0/1
+ip address 192.23.12.1 255.255.255.0
+no shutdown
+
+
+
+interface se 0/0/0
+clock rate 128000
+ip address 192.23.1.1 255.255.255.252
+no shutdown
+
+
+
+router eigrp 1
+no auto-summary
+eigrp router-id 1.1.1.1
+network 192.23.6.0 0.0.0.255
+network 192.23.12.0 0.0.0.255
+network 192.23.1.0 0.0.0.3
+passive-interface gi 0/0
+passive-interface gi 0/1
+end
+exit
+!=================================Switch root===================
 enable
 configure terminal
-vtp mode server
-vtp domain cisco
-vtp password cisco
-vlan 10
-name Docentes
-vlan 20
-name Alumnos
-vlan 30 
-name Exalumnos
-!=============================vtp cliente
-enable
-configure terminal
-vtp mode client
-vtp domain cisco
-vtp password cisco
+spanning-tree vlan 1 root primary
+interface fa 0/4
+spanning-tree bpduguard enable
+spanning-tree portfast
+end
+exit
+!===============================================================
+
 
 
 

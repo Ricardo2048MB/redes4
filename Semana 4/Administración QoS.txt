@@ -1,0 +1,19 @@
+spanning-tree mode pvst
+!
+class-map match-all voice
+match protocol rtp
+class-map match-all http
+match protocol http
+class-map match-all icmp
+match protocol icmp
+!
+policy-map mark
+class voice
+priority 100
+set ip dscp ef
+class http
+priority 50
+set ip dscp af31
+class icmp
+priority 25
+set ip dscp af11

@@ -1,0 +1,142 @@
+!==============================ROUTER 2=========================================
+enable
+configure terminal
+hostname R2
+
+
+
+router eigrp 1 
+no auto-summary
+eigrp router-id 2.2.2.2
+network 192.23.7.0 0.0.0.255
+network 192.23.1.0 0.0.0.3
+network 192.23.2.0 0.0.0.3
+passive-interface fa 0/0
+
+
+
+telephony-service
+max-ephones 4
+max-dn 4
+ip source-address 192.23.7.1 port 2000
+auto assign 1 to 4
+
+
+
+ephone-dn 1
+number 1001
+ephone-dn 2
+number 1002
+ephone-dn 3
+number 1003
+ephone-dn 4
+number 1004
+
+
+
+interface FastEthernet0/0
+!!ip address 192.10.1.1 255.255.255.0 (como si fuera gigabit)
+ip address 192.23.7.1 255.255.255.0
+no shutdown
+
+
+
+interface Serial0/0/0
+clock rate 128000
+ip address 192.23.2.1 255.255.255.252
+no shutdown
+
+
+
+interface Serial0/0/1
+!clock rate 128000
+ip address 192.23.1.2 255.255.255.252
+no shutdown
+
+
+
+ip dhcp excluded-address 192.23.7.1 192.23.7.9
+ip dhcp pool POOL01
+network 192.23.7.0 255.255.255.0
+default-router 192.23.7.1
+option 150 ip 192.23.7.1
+dns-server 192.23.7.3
+
+
+
+ip dhcp excluded-address 192.23.8.1 192.23.8.9
+ip dhcp pool POOL02
+network 192.23.8.0 255.255.255.0
+default-router 192.23.8.1
+option 150 ip 192.23.7.1
+dns-server 192.23.7.3
+
+
+
+end
+exit
+!==============================ROUTER 3=========================================
+enable
+configure terminal
+hostname R3
+
+
+
+interface FastEthernet0/0
+ip address 192.23.8.1 255.255.255.0
+no shutdown
+
+
+
+interface Serial0/0/0
+clock rate 128000
+ip address 192.23.3.1 255.255.255.252
+no shutdown
+
+
+
+interface Serial0/0/1
+!clock rate 128000
+ip address 192.23.2.2 255.255.255.252
+no shutdown
+
+
+
+router eigrp 1
+no auto-summary
+eigrp router-id 3.3.3.3
+network 192.23.8.0 0.0.0.255
+network 192.23.2.0 0.0.0.3
+network 192.23.3.0 0.0.0.3
+passive-interface fa 0/0
+
+
+
+do show ip route
+
+
+
+interface fa 0/0
+ip helper-address 192.23.7.1
+
+
+
+end 
+exit
+!==============================Switch2=========================================
+enable
+configure terminal
+interface range f0/4-5
+switchport voice vlan 1
+end
+exit
+!==============================Switch3=========================================
+enable
+configure terminal
+interface range f0/4-5
+switchport voice vlan 1
+end
+exit
+!=========================Parece que los comandos ya funcionaron.
+!=========================Ahora solo falta configurar algunas cosas en la topología.
+!=========================A las 19:56 obtuvimos un gran avance; Se logró la segunda parte.

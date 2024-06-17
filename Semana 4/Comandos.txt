@@ -1,0 +1,211 @@
+   Router1   Router>enable
+   Router1   Router#configure terminal
+   Router1   Router(config)#interface gi 0/0
+   Router1   Router(config-if)#ip address 192.8.8.1 255.255.254.0
+   Router1   Router(config-if)#no shutdown
+   Router1   Router(config-if)#interface gi 0/1
+   Router1   Router(config-if)#ip address 192.8.1.237 255.255.255.252
+   Router1   Router(config-if)#no shutdown
+   Router1   Router(config-if)#interface se 0/0/0
+   Router1   Router(config-if)#ip address 192.8.11.253 255.255.255.252
+   Router1   Router(config-if)#clock rate 128000
+   Router1   Router(config-if)#no shutdown
+   Router1   Router(config-if)#interface se 0/0/1
+   Router1   Router(config-if)#ip address 192.8.11.242 255.255.255.252
+   Router2   Router>enable
+   Router2   Router#configure terminal
+   Router2   Router(config)#interface gi 0/0
+   Router2   Router(config-if)#ip address 192.8.10.1 255.255.255.0
+   Router2   Router(config-if)#no shutdown
+   Router2   Router(config-if)#interface se 0/0/0
+   Router2   Router(config-if)#ip address 192.8.11.249 255.255.255.252
+   Router2   Router(config-if)#clock rate 128000
+   Router2   Router(config-if)#no shutdown
+   Router2   Router(config-if)#interface se 0/0/1
+   Router2   Router(config-if)#ip address 192.8.11.254 255.255.255.252
+   Router2   Router(config-if)#no shutdown
+   Router4   Router>enable
+   Router4   Router#configure terminal
+   Router4   Router(config)#interface gi 0/0
+   Router4   Router(config-if)#ip address 192.8.11.1 255.255.255.128
+   Router4   Router(config-if)#no shutdown
+   Router4   Router(config-if)#interface se 0/0/0
+   Router4   Router(config-if)#ip address 192.8.11.245 255.255.255.252
+   Router4   Router(config-if)#clock rate 128000
+   Router4   Router(config-if)#no shutdown
+   Router4   Router(config-if)#interface se 0/0/1
+   Router4   Router(config-if)#ip address 192.8.11.250 255.255.255.252
+   Router4   Router(config-if)#no shutdown
+   Router3   Router>enable
+   Router3   Router#configure terminal
+   Router3   Router(config)#interface gi 0/0
+   Router3   Router(config-if)#ip address 192.8.10.129 255.255.255.240
+   Router3   Router(config-if)#no shutdown
+   Router3   Router(config-if)#interface se 0/0/0
+   Router3   Router(config-if)#ip address 192.8.11.241 255.255.255.252
+   Router3   Router(config-if)#clock rate 128000
+   Router3   Router(config-if)#no shutdown
+   Router3   Router(config-if)#interface se 0/0/1
+   Router3   Router(config-if)#ip address 192.8.11.246 255.255.255.252
+   Router3   Router(config-if)#no shutdown
+   Router1   Router(config-if)#no shutdown
+   Router1   Router(config-if)#enable
+   Router1   Router(config-if)#configure terminal
+   Router1   Router(config-if)#hostname alexcm1
+   Router1   alexcm1(config)#enable secret cisco
+   Router1   alexcm1(config)#line con 0
+   Router1   alexcm1(config-line)#password cisco
+   Router1   alexcm1(config-line)#login
+   Router1   alexcm1(config-line)#line vty 0 4
+   Router1   alexcm1(config-line)#password cisco
+   Router1   alexcm1(config-line)#login 
+   Router1   alexcm1(config-line)#ip dhcp pool deptoA
+   Router1   alexcm1(dhcp-config)#network 192.8.8.0 255.255.254.0
+   Router1   alexcm1(dhcp-config)#default-router 192.8.8.1
+   Router1   alexcm1(dhcp-config)#dns-server 192.8.11.238
+   Router1   alexcm1(dhcp-config)#exit
+   Router1   alexcm1(config)#enable
+   Router1   alexcm1(config)#configure terminal
+   Router1   alexcm1(config)#hostname alexcm1
+   Router1   alexcm1(config)#enable secret cisco
+   Router1   alexcm1(config)#line con 0
+   Router1   alexcm1(config-line)#password cisco
+   Router1   alexcm1(config-line)#login
+   Router1   alexcm1(config-line)#line vty 0 4
+   Router1   alexcm1(config-line)#password cisco
+   Router1   alexcm1(config-line)#login 
+   Router1   alexcm1(config-line)#ip dhcp pool deptoA
+   Router1   alexcm1(dhcp-config)#network 192.8.8.0 255.255.254.0
+   Router1   alexcm1(dhcp-config)#default-router 192.8.8.1
+   Router1   alexcm1(dhcp-config)#dns-server 192.8.11.238
+   Router2   Router(config-if)#exit
+   Router2   Router(config)#enable
+   Router2   Router(config)#configure terminal
+   Router2   Router(config)#hostname alexcm2
+   Router2   alexcm2(config)#enable secret cisco
+   Router2   alexcm2(config)#line con 0
+   Router2   alexcm2(config-line)#password cisco
+   Router2   alexcm2(config-line)#login
+   Router2   alexcm2(config-line)#line vty 0 4
+   Router2   alexcm2(config-line)#password cisco
+   Router2   alexcm2(config-line)#login 
+   Router2   alexcm2(config-line)#ip dhcp pool deptoB
+   Router2   alexcm2(dhcp-config)#network 192.8.10.0 255.255.255.0
+   Router2   alexcm2(dhcp-config)#default-router 192.8.10.1
+   Router2   alexcm2(dhcp-config)#dns-server 192.8.11.238
+   Router4   Router(config-if)#exit
+   Router4   Router(config)#enable
+   Router4   Router(config)#configure terminal
+   Router4   Router(config)#hostname alexcm3
+   Router4   alexcm3(config)#enable secret cisco
+   Router4   alexcm3(config)#line con 0
+   Router4   alexcm3(config-line)#password cisco
+   Router4   alexcm3(config-line)#login
+   Router4   alexcm3(config-line)#line vty 0 4
+   Router4   alexcm3(config-line)#password cisco
+   Router4   alexcm3(config-line)#login 
+   Router4   alexcm3(config-line)#ip dhcp pool deptoC
+   Router4   alexcm3(dhcp-config)#network 192.8.11.0 255.255.254.128
+   Router4   alexcm3(dhcp-config)#default-router 192.8.11.1
+   Router4   alexcm3(dhcp-config)#dns-server 192.8.11.238
+   Router3   Router(config-if)#exit
+   Router3   Router(config)#enable
+   Router3   Router(config)#configure terminal
+   Router3   Router(config)#hostname alexcm4
+   Router3   alexcm4(config)#enable secret cisco
+   Router3   alexcm4(config)#line con 0
+   Router3   alexcm4(config-line)#password cisco
+   Router3   alexcm4(config-line)#login
+   Router3   alexcm4(config-line)#line vty 0 4
+   Router3   alexcm4(config-line)#password cisco
+   Router3   alexcm4(config-line)#login 
+   Router3   alexcm4(config-line)#ip dhcp pool deptoD
+   Router3   alexcm4(dhcp-config)#network 192.8.11.128 255.255.255.240
+   Router3   alexcm4(dhcp-config)#default-router 192.8.11.129
+   Router3   alexcm4(dhcp-config)#dns-server 192.8.11.238
+   Router1   alexcm1(dhcp-config)#exit
+   Router1   alexcm1(config)#enable 
+   Router1   alexcm1(config)#configure terminal 
+   Router1   alexcm1(config)#ROUTER A OSPF
+   Router1   alexcm1(config)#network 192.8.8.0 0.0.1.255 area 0
+   Router1   alexcm1(config)#network 192.8.11.236 0.0.0.3 area 0
+   Router1   alexcm1(config)#network 192.8.11.252 0.0.0.3 area 0
+   Router1   alexcm1(config)#exit
+   Router1   alexcm1#enable 
+   Router1   alexcm1#configure terminal 
+   Router1   alexcm1(config)#ROUTER A OSPF
+   Router1   alexcm1(config)#network 192.8.8.0 0.0.1.255 area 0
+   Router1   alexcm1(config)#network 192.8.11.236 0.0.0.3 area 0
+   Router1   alexcm1(config)#network 192.8.11.252 0.0.0.3 area 0
+   Router1   alexcm1(config)#router ospf 1
+   Router1   alexcm1(config-router)#network 192.8.8.0 0.0.1.255 area 0
+   Router1   alexcm1(config-router)#network 192.8.11.236 0.0.0.3 area 0
+   Router1   alexcm1(config-router)#network 192.8.11.252 0.0.0.3 area 0
+   Router2   alexcm2(dhcp-config)#exit
+   Router2   alexcm2(config)#enable 
+   Router2   alexcm2(config)#configure terminal 
+   Router2   alexcm2(config)#router ospf 1
+   Router2   alexcm2(config-router)#network 192.8.10.0 0.0.0.255 area 0
+   Router2   alexcm2(config-router)#network 192.8.11.252 0.0.0.3 area 0
+   Router2   alexcm2(config-router)#network 192.8.11.248 0.0.0.3 area 0
+   Router4   alexcm3(dhcp-config)#exit
+   Router4   alexcm3(config)#enable 
+   Router4   alexcm3(config)#configure terminal 
+   Router4   alexcm3(config)#router ospf 1
+   Router4   alexcm3(config-router)#network 192.8.11.0 0.0.1.127 area 0
+   Router4   alexcm3(config-router)#network 192.8.11.244 0.0.0.3 area 0
+   Router4   alexcm3(config-router)#network 192.8.11.248 0.0.0.3 area 0
+   Router4   alexcm3(config-router)#exit
+   Router4   alexcm3(config)#enable 
+   Router4   alexcm3(config)#configure terminal 
+   Router4   alexcm3(config)#router ospf 1
+   Router4   alexcm3(config-router)#network 192.8.11.0 0.0.1.127 area 0
+   Router4   alexcm3(config-router)#network 192.8.11.244 0.0.0.3 area 0
+   Router4   alexcm3(config-router)#network 192.8.11.248 0.0.0.3 area 0
+   Router4   alexcm3(config-router)#exit
+   Router4   alexcm3(config)#enable 
+   Router4   alexcm3(config)#configure terminal 
+   Router4   alexcm3(config)#router ospf 1
+   Router4   alexcm3(config-router)#network 192.8.11.0 0.0.0.127 area 0
+   Router4   alexcm3(config-router)#network 192.8.11.244 0.0.0.3 area 0
+   Router4   alexcm3(config-router)#network 192.8.11.248 0.0.0.3 area 0
+   Router3   alexcm4(dhcp-config)#exit
+   Router3   alexcm4(config)#enable 
+   Router3   alexcm4(config)#configure terminal 
+   Router3   alexcm4(config)#router ospf 1
+   Router3   alexcm4(config-router)#network 192.8.11.128 0.0.0.15 area 0
+   Router3   alexcm4(config-router)#network 192.8.11.244 0.0.0.3 area 0
+   Router3   alexcm4(config-router)#network 192.8.11.240 0.0.0.3 area 0
+   Router1   alexcm1>enable
+   Router1   alexcm1#show run
+   Router1   alexcm1>enable
+   Router1   alexcm1#enable
+   Router1   alexcm1#configure terminal
+   Router1   alexcm1(config)#router ospf 1
+   Router1   alexcm1(config-router)#end
+   Router1   alexcm1#show ip protocols | include router id
+   Router1   alexcm1#show ip protocols | include Router ID
+   Router1   alexcm1#show ip protocols
+   Router1   alexcm1>enable
+   Router1   alexcm1#show run
+   Router1   alexcm1#show ip protocols
+   Router3   alexcm4>enable
+   Router3   alexcm4#show ip protocols
+   Router4   alexcm3>enable
+   Router2   alexcm2>enable
+   Router2   alexcm2#show ip protocols
+   Router3   alexcm4#show ip interface brief
+   Router3   alexcm4#configure terminal
+   Router3   alexcm4(config)#interface gi 0/0
+   Router3   alexcm4(config-if)#ip address 192.8.11.129 255.255.255.240
+   Router3   alexcm4(config-if)#no shutdown
+   Router3   alexcm4(config-if)#end
+   Router3   alexcm4#show ip interface brief
+   Router1   alexcm1>enable
+   Router1   alexcm1#configure terminal
+   Router1   alexcm1(config)#do show run
+   Router1   alexcm1(config)#interface gi 0/1
+   Router1   alexcm1(config-if)#ip address 192.8.11.236 255.255.255.252
+   Router1   alexcm1(config-if)#ip address 192.8.11.237 255.255.255.252
+   Router1   alexcm1(config-if)#end
+   Router1   alexcm1#exit

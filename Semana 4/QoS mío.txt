@@ -1,0 +1,256 @@
+!====================================Router 4
+enable
+configure terminal
+
+
+
+hostname R4
+
+
+
+interface gi 0/0
+ip address 192.23.9.1 255.255.255.0
+no shutdown
+
+
+
+interface se 0/0/0
+clock rate 128000
+ip address 192.23.4.1 255.255.255.252
+no shutdown
+
+
+
+interface se 0/0/1
+ip address 192.23.3.2 255.255.255.252
+no shutdown
+
+
+
+router eigrp 1
+no auto-summary
+eigrp router-id 4.4.4.4
+network 192.23.9.0 0.0.0.255
+network 192.23.3.0 0.0.0.3
+network 192.23.4.0 0.0.0.3
+passive-interface gi 0/0
+
+
+
+class-map match-all criticos
+match protocol eigrp
+
+
+
+class-map match-all medios
+match protocol ssh
+match protocol telnet
+
+
+
+class-map match-all bajos
+match protocol http
+match protocol pop3
+match protocol smtp
+
+
+
+policy-map policyMARK
+
+
+
+class criticos
+set precedence 7
+
+
+
+class medios
+set precedence 5
+
+
+
+class bajos
+set precedence 3
+
+
+
+interface se 0/0/0
+service-policy output policyMARK
+
+
+
+do show policy-map interface se 0/0/0
+
+
+
+end
+exit
+!====================================Router 5
+enable
+configure terminal
+
+
+
+hostname R5
+
+
+
+interface gi 0/0
+ip address 192.23.10.1 255.255.255.0
+no shutdown
+
+
+
+interface se 0/0/0
+clock rate 128000
+ip address 192.23.5.1 255.255.255.252
+no shutdown
+
+
+
+interface se 0/0/1
+ip address 192.23.4.2 255.255.255.252
+no shutdown
+
+
+
+router eigrp 1
+no auto-summary
+eigrp router-id 5.5.5.5
+network 192.23.10.0 0.0.0.255
+network 192.23.4.0 0.0.0.3
+network 192.23.5.0 0.0.0.3
+passive-interface gi 0/0
+
+
+
+
+end
+exit
+!====================================Router 6
+enable
+configure terminal
+
+
+
+hostname R6
+
+
+
+interface gi 0/0
+ip address 192.23.11.1 255.255.255.0
+no shutdown
+
+
+
+interface se 0/0/1
+ip address 192.23.5.2 255.255.255.252
+no shutdown
+
+
+
+router eigrp 1
+no auto-summary
+eigrp router-id 6.6.6.6
+network 192.23.11.0 0.0.0.255
+network 192.23.5.0 0.0.0.3
+passive-interface gi 0/0
+
+
+
+class-map match-all criticos
+match protocol eigrp
+
+
+
+class-map match-all medios
+match protocol ssh
+match protocol telnet
+
+
+
+class-map match-all bajos
+match protocol http
+match protocol pop3
+match protocol smtp
+
+
+
+policy-map policyMARK
+
+
+
+class criticos
+set precedence 7
+
+
+
+class medios
+set precedence 5
+
+
+
+class bajos
+set precedence 3
+
+
+
+interface se 0/0/0
+service-policy output policyMARK
+
+
+
+do show policy-map interface se 0/0/0
+
+
+
+ip access-list extended Skelerang
+deny tcp host 192.23.11.3 host 192.23.10.2 eq 80
+deny tcp host 192.23.11.4 host 192.23.10.2 eq 80
+deny ip host 192.23.11.4 host 192.23.10.3
+permit ip any any
+interface se 0/0/1
+ip access-group Skelerang out
+
+
+end
+exit
+!====================================Switch 4
+enable
+configure terminal
+!El siguiente comando sirve para que el dns no busque 
+!el comando que se ingresó con error, en caso de haberlo
+!o sea, para que no piense que tu comando era una web
+!que estabas buscando.
+!no ip domain-lookup
+!====================================Switch 6
+enable
+configure terminal
+!El siguiente comando sirve para que el dns no busque 
+!el comando que se ingresó con error, en caso de haberlo
+!o sea, para que no piense que tu comando era una web
+!que estabas buscando.
+!no ip domain-lookup
+!=================================Notas útiles
+14:40
+15:20
+
+QoS class-map's:
+eigrp
+ssh
+telnet
+http
+pop3
+smtp
+
+críticos:
+eigrp
+
+medios:
+ssh
+telnet
+
+bajos:
+http
+pop3
+smtp
