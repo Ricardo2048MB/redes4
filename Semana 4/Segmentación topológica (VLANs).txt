@@ -164,12 +164,14 @@ exit
 enable
 configure terminal
 spanning-tree vlan 1 root primary
-interface fa 0/4
+interface gi 0/1
 spanning-tree bpduguard enable
 spanning-tree portfast
 end
 exit
 !===============================================================
+Hicimos modificaciones: cambiamos el switch root. Ahora es 
+el que va conectado directamente al router.
 
 
 
