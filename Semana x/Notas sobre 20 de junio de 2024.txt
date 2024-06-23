@@ -1,0 +1,209 @@
+Router0   Router>enable
+Router0   Router#configure terminal
+Router0   Router(config)#hostname izquierda
+Router0   izquierda(config)#interface gi 0/0
+Router0   izquierda(config-if)#ip address 192.168.0.1 255.255.255.0 
+Router0   izquierda(config-if)#no shutdown
+Router0   izquierda(config-if)#interface se 0/0/0
+Router0   izquierda(config-if)#ip address 192.168.1.253 255.255.255.252
+Router0   izquierda(config-if)#clock rate 128000
+Router0   izquierda(config-if)#no shutdown
+Router0   izquierda(config-if)#end
+Router0   izquierda#exit
+!==============================Nada fuera de lo ya conocido
+
+
+
+Router1   Router>enable
+Router1   Router#configure terminal
+Router1   Router(config)#hostname isp
+Router1   isp(config)#interface se 0/0/1
+Router1   isp(config-if)#ip address 192.168.1.254 255.255.255.252
+Router1   isp(config-if)#no shutdown
+Router1   isp(config-if)#interface se 0/0/0
+Router1   isp(config-if)#ip address 192.168.1.249 255.255.255.252
+Router1   isp(config-if)#clock rate 128000
+Router1   isp(config-if)#no shutdown
+Router1   isp(config-if)#end
+Router1   isp#exit
+!==============================Nada fuera de lo ya conocido
+
+
+
+Router2   Router>enable
+Router2   Router#configure terminal
+Router2   Router(config)#hostname derecha
+Router2   derecha(config)#interface se 0/0/1
+Router2   derecha(config-if)#interface serial 0/0/0
+Router2   derecha(config-if)#interface serial 0/0/0
+Router2   derecha(config-if)#interface serial 0/0/1
+Router2   derecha(config-if)#ip address 192.168.1.250 255.255.255.252
+Router2   derecha(config-if)#no shutdown
+Router2   derecha(config-if)#interface gi 0/0
+Router2   derecha(config-if)#ip address 192.168.0.2 255.255.255.0
+Router2   derecha(config-if)#no shutdown
+Router2   derecha#exit
+!==============================Nada fuera de lo ya conocido
+
+
+
+!==============================Creo que aquí comienza lo bueno
+Router0   izquierda>enable
+Router0   izquierda#configure terminal
+Router0   izquierda(config)#interface gi 0/0
+Router0   izquierda(config-if)#standby version 2
+!!!!!===============Sospechoso===============================
+Router0   izquierda(config-if)#standby 10
+!!!!!===============Sospechoso===============================
+Router0   izquierda(config-if)#standby 10 ip 192.168.0.254
+Router0   izquierda(config-if)#standby 10 ip priority 105
+!========================================================Ese wey es el jefe
+Router0   izquierda(config-if)#standby 10 priority 105
+Router0   izquierda(config-if)#standby 10 preempt
+
+
+
+Router2   derecha>enable
+Router2   derecha#configure terminal
+Router2   derecha(config)#interface gi 0/0
+Router2   derecha(config-if)#standby version 2
+Router2   derecha(config-if)#standby 10 ip 192.168.0.254
+Router2   derecha(config-if)#standby 10 preempt
+Router2   derecha#exit
+
+
+!!==================================Ya se terminó lo de HSRP; sigue EIGRP
+Router0   izquierda(config-if)#exit
+Router0   izquierda(config)#router eigrp 100
+Router0   izquierda(config-router)#network 192.168.0.0 
+Router0   izquierda(config-router)#network 192.168.1.252 
+Router0   izquierda(config-router)#no auto-summary
+
+
+
+Router1   isp>enable
+Router1   isp#configure terminal
+Router1   isp(config)#router eigrp 100
+Router1   isp(config-router)#network 192.168.1.252
+Router1   isp(config-router)#network 192.168.1.248
+Router1   isp(config-router)#no auto-summary
+
+
+
+Router2   derecha>enable
+Router2   derecha#configure terminal
+Router2   derecha(config)#network 192.168.0.0
+Router2   derecha(config)#router eigrp 100
+Router2   derecha(config-router)#network 192.168.0.0
+Router2   derecha(config-router)#network 192.168.1.248
+Router2   derecha(config-router)#no auto-summary
+Router2   derecha#exit
+
+
+
+Router0   izquierda#configure terminal
+Router0   izquierda(config)#interface gi 0/0
+Router0   izquierda(config-if)#shutdown
+Router0   izquierda(config-if)#no shutdown
+
+
+!==========================================================Ahora vamos a empezar
+!===============================con lo de la sincronización
+Router2   derecha>show clock
+Router2   derecha>configure terminal
+Router2   derecha>enable
+Router2   derecha#configure terminal
+Router2   derecha(config)#ntp server 192.168.0.250
+Router2   derecha(config)#do show clock
+Router2   derecha(config)#service timestamps debug datetime msec
+Router2   derecha(config)#interface se 0/0/1
+Router2   derecha(config-if)#shutdown
+Router2   derecha(config-if)#no shutdown
+Router2   derecha(config-if)#exit
+Router2   derecha(config)#logging host 192.168.0.250
+Router2   derecha(config)#interface se 0/0/1
+Router2   derecha(config-if)#shutdown
+Router2   derecha(config-if)#no shutdown
+!!====================Hasta ahí se estableció el servidor ntp
+!!================y también se estableció que el mismo servidor recibiera registros de él
+
+
+Router0   izquierda>enable
+Router0   izquierda#configure terminal
+Router0   izquierda(config)#ntp server 192.168.0.250
+Router0   izquierda(config)#do show clock
+Router0   izquierda(config)#service timestamps debug datetime msec
+Router0   izquierda(config)#do show clock
+Router0   izquierda(config)#logging host 192.168.0.250
+Router0   izquierda(config)#do show clock
+!!==================Nuevamente…
+!!====================Hasta ahí se estableció el servidor ntp
+!!================y también se estableció que el mismo servidor recibiera registros de él
+
+
+
+Router1   isp>enable
+Router1   isp#configure terminal
+Router1   isp(config)#ntp server 192.168.0.250
+Router1   isp(config)#service timestamps debug datetime msec
+Router1   isp(config)#logging host 192.168.0.250
+Router1   isp(config)#do show clock
+Router1   isp(config)#do show clock
+Router1   isp(config)#do show clock
+Router1   isp#exit
+!!==================Nuevamente…
+!!====================Hasta ahí se estableció el servidor ntp
+!!================y también se estableció que el mismo servidor recibiera registros de él
+
+
+
+!!========================
+sáb. jun. 22 23:21:40 2024   Switch0   Switch>enable
+sáb. jun. 22 23:21:43 2024   Switch0   Switch#configure terminal
+sáb. jun. 22 23:21:51 2024   Switch0   Switch(config)#interface vlan 1
+sáb. jun. 22 23:22:08 2024   Switch0   Switch(config-if)#ip address 192.168.0.5 255.255.255.0
+sáb. jun. 22 23:22:11 2024   Switch0   Switch(config-if)#no shutdown
+sáb. jun. 22 23:22:20 2024   Switch0   Switch(config-if)#exit
+sáb. jun. 22 23:23:12 2024   Switch0   Switch(config)#ip default-gateway 192.168.0.254
+sáb. jun. 22 23:23:23 2024   Switch0   Switch(config)#end 
+sáb. jun. 22 23:23:24 2024   Switch0   Switch#exit
+
+
+!======Así que supongo que la cagamos (hace rato), pero tiene arreglo porque ahora ya sabemos qué hacer
+enable
+configure terminal
+interface vlan 1
+ip address 192.168.0.5 255.255.255.0
+no shutdown
+exit
+ip default-gateway 192.168.0.254
+end 
+exit
+!====================Sincronización para todos yupiiii
+enable
+configure terminal
+ntp server 192.168.0.250
+service timestamps debug datetime msec
+logging host 192.168.0.250
+end
+exit
+!==========================Descripción de la topología
+Prioridad para spanning tree 
+
+Los switches tienen por defecto una prioridad de 32768, y ha de disminuir para que sea root en saltos de 4096.
+
+Dicho de otro modo, los switches tienen una prioridad en el rango de [0x0, 0x8000] en saltos de 0x1000. Obviamente los switches con menos prioridad son "los elegidos".
+
+
+Los routers comienzan con una prioridad de 100 y pueden tener una prioridad en el rango [0, 255] o bien [0x0, 0XFF]. Puede haber saltos como sea (quiso decir enteros). Los routers quieren prioridad mas alta para ser root o primario.
+
+Actividades que haremos:
+
+Rutas dinamicas o estaticas
+Usaremos eigrp
+
+Todos los routers deben reportar errores al servidor (listo, creo)
+
+Y los 5 dispositivos deben estar sincronizados con el reloj de ntp (faltan el switch y el server); deben mandar errores al servidor de syslog.
+
+El switch primero tiene que mandarle ping al server; si no tiene eso, no se va a poder sincronizar (hay que investigar esto).
