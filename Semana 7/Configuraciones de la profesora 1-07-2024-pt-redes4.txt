@@ -1,0 +1,113 @@
+Ésta es la configuración propuesta por la profesora, pero de hecho,
+se puede hacer a mi modo siempre y cuando cumpla con los requerimientos 
+escritos en las etiquetas de la práctica.
+
+
+
+!====Router A====
+enable
+configure terminal
+hostname RA
+interface gi 0/0
+ip address 172.23.0.1 255.255.254.0
+no shutdown
+interface se 0/0/0
+ip address 172.23.7.249 255.255.255.252
+no shutdown
+interface gi 0/1
+ip address 172.23.7.253 255.255.255.252
+no shutdown
+end
+exit
+!==Router B==
+enable
+configure terminal
+hostname RB
+interface gi 0/0
+ip address 172.23.2.1 255.255.255.0
+no shutdown
+interface se 0/0/0
+ip address 172.23.7.245 255.255.255.252
+no shutdown
+interface se 0/0/1
+ip address 172.23.7.250 255.255.255.252
+no shutdown
+end
+exit
+!==Router C==
+enable
+configure terminal
+hostname RC
+interface gi 0/0
+ip address 172.23.3.1 255.255.255.128
+no shutdown
+interface se 0/0/0
+ip address 172.23.7.241 255.255.255.252
+no shutdown
+interface se 0/0/1
+ip address 172.23.7.246 255.255.255.252
+no shutdown
+end
+exit
+!==Router D==
+enable
+configure terminal
+hostname RD
+interface gi 0/0
+ip address 172.23.3.129 255.255.255.240
+no shutdown
+interface se 0/0/0
+ip address 172.23.7.241 255.255.255.252
+no shutdown
+interface se 0/0/1
+ip address 172.23.7.246 255.255.255.252
+no shutdown
+end
+exit
+!=========================IP's listas
+
+!============Profesora
+!====S1====
+enable
+configure terminal
+vlan 15
+name sistemas
+vlan 30
+name name telecom
+interface range fa 0/1-9
+switchport mode access
+switchport access vlan 15
+interface range fa 0/10-19
+switchport mode access
+switchport access vlan 30
+interface gi 0/2
+switchport mode access
+switchport mode trunk
+end
+exit
+
+
+!!====RA
+enable
+configure terminal
+interface gi 0/0
+no shutdown
+interface gi 0/0.15
+encapsulation dot1q 15
+ip address 172.23.0.1 255.255.255.0
+no shutdown
+interface gi 0/0.30
+encapsulation dot1q 30
+ip address 172.23.1.1 255.255.255.0
+no shutdown
+end
+exit
+!!====ahora va con dhcp
+enable
+configure terminal
+ip dhcp pool vlan15
+network 172.23.0.0 255.255.255.0
+default-gateway 172.23.0.1
+dns-server 172.23.7.254
+end
+exit
