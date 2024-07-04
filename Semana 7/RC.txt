@@ -16,7 +16,7 @@ ip address 172.23.3.1 255.255.255.192
 no shutdown
 interface gi 0/0.35
 encapsulation dot1q 35
-ip address 172.23.3.129 255.255.255.192
+ip address 172.23.3.65 255.255.255.192
 no shutdown
 !
 !================================Continúan las demás interfaces
@@ -31,14 +31,14 @@ no shutdown
 !
 ip dhcp pool vlan15
 network 172.23.3.0 255.255.255.192
-default-gateway 172.23.3.1
+default-router 172.23.3.1
 dns-server 172.23.7.254
 !
 !
 !
 ip dhcp pool vlan35
-network 172.23.3.128 255.255.255.192
-default-gateway 172.23.3.129
+network 172.23.3.64 255.255.255.192
+default-router 172.23.3.65
 dns-server 172.23.7.254
 !
 !================================Ahora vamos con EIGRP
@@ -49,7 +49,7 @@ eigrp router-id 3.3.3.3
 !VLAN 15
 network 172.23.3.0 0.0.0.63
 !VLAN 35
-network 172.23.3.128 0.0.0.63
+network 172.23.3.64 0.0.0.63
 !Enlace 2
 network 172.23.7.244 0.0.0.3
 !Enlace 3
