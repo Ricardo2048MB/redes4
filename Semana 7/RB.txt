@@ -1,0 +1,15 @@
+!==Router B==
+enable
+configure terminal
+hostname RB
+interface gi 0/0
+ip address 172.23.2.1 255.255.255.0
+no shutdown
+interface se 0/0/0
+ip address 172.23.7.245 255.255.255.252
+no shutdown
+interface se 0/0/1
+ip address 172.23.7.250 255.255.255.252
+no shutdown
+end
+exit

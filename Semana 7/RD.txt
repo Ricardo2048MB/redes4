@@ -1,0 +1,15 @@
+!==Router D==
+enable
+configure terminal
+hostname RD
+interface gi 0/0
+ip address 172.23.3.129 255.255.255.240
+no shutdown
+interface se 0/0/0
+ip address 172.23.7.241 255.255.255.252
+no shutdown
+interface se 0/0/1
+ip address 172.23.7.246 255.255.255.252
+no shutdown
+end
+exit

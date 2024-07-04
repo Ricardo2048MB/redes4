@@ -1,0 +1,47 @@
+!================================Router C
+!
+!
+enable
+configure terminal
+hostname RC
+interface gi 0/0
+!ip address 172.23.3.1 255.255.255.128 (solo debe activarse)
+no shutdown
+!
+!================================Empezamos configuración de router on a stick
+!
+interface gi 0/0.15
+encapsulation dot1q 15
+ip address 172.23.3.1 255.255.255.192
+no shutdown
+interface gi 0/0.35
+encapsulation dot1q 35
+ip address 172.23.3.129 255.255.255.192
+no shutdown
+!
+!================================Continúan las demás interfaces
+!
+interface se 0/0/0
+ip address 172.23.7.241 255.255.255.252
+no shutdown
+interface se 0/0/1
+ip address 172.23.7.246 255.255.255.252
+no shutdown
+!================================Ahora vamos con dhcp
+!
+ip dhcp pool vlan15
+network 172.23.3.0 255.255.255.192
+default-gateway 172.23.3.1
+dns-server 172.23.7.254
+!
+!
+!
+ip dhcp pool vlan35
+network 172.23.3.128 255.255.255.192
+default-gateway 172.23.3.129
+dns-server 172.23.7.254
+!
+!================================
+!
+end
+exit

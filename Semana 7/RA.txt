@@ -1,0 +1,48 @@
+!================================Router A
+!
+!
+enable
+configure terminal
+hostname RA
+interface gi 0/0
+!ip address 172.23.0.1 255.255.254.0 (Aquí me había equivocado yo al ponerle una dirección —solo debía encenderla—)
+no shutdown
+!
+!================================Empezamos configuración de router on a stick
+!
+interface gi 0/0.15
+encapsulation dot1q 15
+ip address 172.23.0.1 255.255.255.0
+no shutdown
+interface gi 0/0.30
+encapsulation dot1q 30
+ip address 172.23.1.1 255.255.255.0
+no shutdown
+!
+!================================Continúan las demás interfaces
+!
+interface se 0/0/0
+ip address 172.23.7.249 255.255.255.252
+no shutdown
+interface gi 0/1
+ip address 172.23.7.253 255.255.255.252
+no shutdown
+!
+!================================Ahora vamos con dhcp
+!
+ip dhcp pool vlan15
+network 172.23.0.0 255.255.255.0
+default-gateway 172.23.0.1
+dns-server 172.23.7.254
+!
+!
+!
+ip dhcp pool vlan30
+network 172.23.1.0 255.255.255.0
+default-gateway 172.23.1.1
+dns-server 172.23.7.254
+!
+!================================
+!
+end
+exit
