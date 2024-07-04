@@ -25,7 +25,8 @@ interface se 0/0/0
 ip address 172.23.7.249 255.255.255.252
 no shutdown
 interface gi 0/1
-ip address 172.23.7.253 255.255.255.252
+ip address 172.23.7.254 255.255.255.252
+!Debido a esto el servidor deberá tener la dirección IP: 172.23.7.253
 no shutdown
 !
 !================================Ahora vamos con dhcp
@@ -41,6 +42,21 @@ ip dhcp pool vlan30
 network 172.23.1.0 255.255.255.0
 default-gateway 172.23.1.1
 dns-server 172.23.7.254
+!
+!================================Ahora vamos con EIGRP
+!
+router eigrp 1
+no auto-summary
+eigrp router-id 1.1.1.1
+!VLAN 15
+network 172.23.0.1 0.0.0.255
+!VLAN 30
+network 172.23.1.1 0.0.0.255
+!Enlace 1
+network 172.23.7.248 0.0.0.3
+!Enlace con el servidor
+network 172.23.7.252 0.0.0.3
+passive-interface gi 0/0
 !
 !================================
 !
