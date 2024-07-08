@@ -43,20 +43,9 @@ network 172.23.1.0 255.255.255.0
 default-router 172.23.1.1
 dns-server 172.23.7.254
 !
-!================================Ahora vamos con EIGRP
+!================================Ahora vamos con OSPF multiarea
 !
-router eigrp 1
-no auto-summary
-eigrp router-id 1.1.1.1
-!VLAN 15
-network 172.23.0.1 0.0.0.255
-!VLAN 30
-network 172.23.1.1 0.0.0.255
-!Enlace 1
-network 172.23.7.248 0.0.0.3
-!Enlace con el servidor
-network 172.23.7.252 0.0.0.3
-passive-interface gi 0/0
+[INSERTAR AQUÍ COMANDOS DE OSPF MULTIAREA]
 !
 !================================
 !

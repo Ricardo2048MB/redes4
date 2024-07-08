@@ -9,6 +9,7 @@ configure terminal
 vlan 15
 name sistemas
 vlan 30
+name telecom
 !
 !================================Acceso a las VLANs
 !name name telecom

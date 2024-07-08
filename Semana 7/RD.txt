@@ -8,16 +8,10 @@ no shutdown
 interface se 0/0/1
 ip address 172.23.7.242 255.255.255.252
 no shutdown
-!================================Ahora vamos con EIGRP
 !
-router eigrp 1
-no auto-summary
-eigrp router-id 4.4.4.4
-!Red del departamento
-network 172.23.3.128 0.0.0.15
-!Enlace 3
-network 172.23.7.240 0.0.0.3
-passive-interface gi 0/0
+!================================Ahora vamos con OSPF multiarea
+!
+[INSERTAR AQUÍ COMANDOS DE OSPF MULTIAREA]
 !
 !================================
 !
