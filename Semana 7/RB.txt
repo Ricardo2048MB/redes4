@@ -16,7 +16,11 @@ no shutdown
 !
 !================================Ahora vamos con OSPF multiarea
 !
-[INSERTAR AQUÍ COMANDOS DE OSPF MULTIAREA]
+router ospf 4
+do show ip route
+network 172.23.2.0 0.0.0.255 area 0
+network 172.23.7.244 0.0.0.3 area 0
+network 172.23.7.248 0.0.0.3 area 2
 !
 !================================
 !

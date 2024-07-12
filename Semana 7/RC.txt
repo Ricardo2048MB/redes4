@@ -43,7 +43,12 @@ dns-server 172.23.7.254
 !
 !================================Ahora vamos con OSPF multiarea
 !
-[INSERTAR AQUÍ COMANDOS DE OSPF MULTIAREA]
+router ospf 6
+do show ip route
+network 172.23.7.244 0.0.0.3 area 0
+network 172.23.7.240 0.0.0.3 area 5
+network 172.23.3.0 0.0.0.63 area 0
+network 172.23.3.64 0.0.0.63 area 0
 !
 !================================
 !

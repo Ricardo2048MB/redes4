@@ -1,0 +1,3 @@
+Se le puso la contraseña 12345678
+Se le puso una antena wireless en lugar de la tarjeta de red
+Se conectó a RB
