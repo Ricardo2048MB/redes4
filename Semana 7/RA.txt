@@ -34,14 +34,14 @@ no shutdown
 ip dhcp pool vlan15
 network 172.23.0.0 255.255.255.0
 default-router 172.23.0.1
-dns-server 172.23.7.254
+dns-server 172.23.7.253
 !
 !
 !
 ip dhcp pool vlan30
 network 172.23.1.0 255.255.255.0
 default-router 172.23.1.1
-dns-server 172.23.7.254
+dns-server 172.23.7.253
 !
 !================================Ahora vamos con OSPF multiarea
 !
