@@ -1,0 +1,48 @@
+enable
+configure terminal
+hostname RdeptoB
+interface se 0/0/1
+ip address 192.23.19.254 255.255.255.252
+no shutdown
+interface fa 0/0
+no shutdown
+!===============================subinterfaces
+interface fa 0/0.20
+encapsulation dot1q 20
+ip address 192.23.18.1 255.255.255.128
+no shutdown
+interface fa 0/0.40
+ip address 192.23.18.129 255.255.255.128
+no shutdown
+!===============================dhcp
+ip dhcp pool datos
+network 192.23.18.0 255.255.255.128
+default-router 192.23.18.1
+ip dhcp pool voz
+network 192.23.18.128 255.255.255.128
+default-router 192.23.18.129
+!===============================servicio de telefonía
+option 150 ip 192.23.18.129
+telephony-service
+max-dn 5
+max-ephones 5
+ip source-address 192.23.18.129 port 2000
+auto assign 1 to 5
+ephone-dn 1
+num 2001
+ephone-dn 2
+num 2002
+!===============================eigrp
+router eigrp 100
+no auto-summary
+eigrp router-id 2.2.2.2
+network 192.23.18.0 0.0.0.127
+network 192.23.18.128 0.0.0.127
+network 192.23.19.252 0.0.0.3
+passive-interface gi 0/0
+!===============================comandos nuevos (investigar para qué son)
+dial-peer voice 1 voip
+destination-pattern 100.
+session target ipv4:192.23.19.253
+end
+exit
