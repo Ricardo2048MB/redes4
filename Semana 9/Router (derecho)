@@ -12,6 +12,7 @@ encapsulation dot1q 20
 ip address 192.23.18.1 255.255.255.128
 no shutdown
 interface fa 0/0.40
+encapsulation dot1q 40
 ip address 192.23.18.129 255.255.255.128
 no shutdown
 !===============================dhcp

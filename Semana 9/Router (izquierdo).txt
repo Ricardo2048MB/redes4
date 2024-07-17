@@ -12,6 +12,7 @@ encapsulation dot1q 15
 ip address 192.23.16.1 255.255.255.0
 no shutdown
 interface fa 0/0.30
+encapsulation dot1q 30
 ip address 192.23.17.1 255.255.255.0
 no shutdown
 !===============================dhcp
