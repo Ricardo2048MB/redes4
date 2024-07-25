@@ -1,5 +1,11 @@
 !===============================
 enable
+!===============================Más apuntes extra
+!modo exec privilegiado del switch Switch#>
+line vty 0 15
+password cisco
+ip domain-name ricardo.com
+!===============================
 configure terminal
 hostname SdeptoD
 !===============================creación de vlans

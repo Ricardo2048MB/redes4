@@ -25,6 +25,7 @@ enable
 configure terminal
 hostname jose
 !===============================Condiciones para la creación de contraseñas en este router (Posiblemente sea implementado pero desde aquí)
+!===============================Se asume que estamos en configuración global
 security password min-lenght 8
 
 
@@ -113,3 +114,10 @@ exit
 !===============================
 
 
+
+!===============================Más apuntes extra
+!modo exec privilegiado del switch Switch#>
+line vty 0 15
+password cisco
+ip domain-name ricardo.com
+!===============================

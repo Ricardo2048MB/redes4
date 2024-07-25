@@ -55,6 +55,40 @@ session target ipv4:192.23.7.250
 dial-peer voice 4 voip
 destination-pattern 500.
 session target ipv4:192.23.7.254
+exit
+!===============================Condiciones para la creación de contraseñas en este router (Posiblemente sea implementado pero desde aquí)
+security password min-lenght 8
+
+
+!vamos a tener 3 niveles de privilegio estándar
+!crearemos administrador
+!creamos al intermedio
+!creamos al principiante
+username admin privilege 15 password cisco123admin
+username princ privilege 0 password cisco123princ
+username int privilege 1 password cisco123int
+
+!Esto escribe los datos en la memoria (?)
+!do write
+
+
+line console 0
+!con el siguiente comando se activa el username
+login local
+
+
+!Esto escribe los datos en la memoria (?) [mejor lo aplicamos acá abajo]
+do write
+!===============================SSH
+ip domain-name ricardo.com
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+username admin secret cisco123ssh
+!===============================Sesiones vty
+line vty 0 4
+transport input ssh
+login local
+no transport input telnet
 !===============================
 end
 exit
