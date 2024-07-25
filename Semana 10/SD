@@ -1,0 +1,23 @@
+!===============================
+enable
+configure terminal
+hostname SdeptoD
+!===============================creación de vlans
+vlan 70
+name datos
+vlan 80
+name voz
+!===============================puertos de acceso
+interface range fa 0/1-20
+switchport mode access
+switchport access vlan 70
+!interface range fa 0/1-20
+!switchport mode access
+switchport voice vlan 80
+!===============================enlace troncal
+interface fa 0/24
+!switchport mode access
+switchport mode trunk
+end
+exit
+!===============================

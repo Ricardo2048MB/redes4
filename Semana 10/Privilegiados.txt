@@ -1,0 +1,28 @@
+!esto va en global config de cualquier router
+enable
+configure terminal
+security password min-lenght 8
+enable password 123
+enable password 12345678
+
+!vamos a tener 3 niveles de privilegio estándar
+!crearemos administrador
+!creamos al intermedio
+!creamos al principiante
+
+username admin privilege 15 password cisco123
+username princ privilege 0 password cisco123
+username int privilege 1 password cisco123
+
+!Esto escribe los datos en la memoria (?)
+do write
+
+
+
+line console 0
+!con el siguiente comando se activa el username
+login local
+end
+exit
+
+

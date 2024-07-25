@@ -1,0 +1,13 @@
+!===============================
+!!Depto A
+enable
+configure terminal
+hostname jose
+ip domain-name example.com
+crypto key generate rsa
+2048
+ip ssh version 2
+username admin secret cisco
+end
+exit
+!===============================

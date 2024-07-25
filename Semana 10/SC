@@ -1,0 +1,23 @@
+!===============================
+enable
+configure terminal
+hostname SdeptoC
+!===============================creación de vlans
+vlan 50
+name datos
+vlan 60
+name voz
+!===============================puertos de acceso
+interface range fa 0/1-20
+switchport mode access
+switchport access vlan 50
+!interface range fa 0/1-20
+!switchport mode access
+switchport voice vlan 60
+!===============================enlace troncal
+interface fa 0/24
+!switchport mode access
+switchport mode trunk
+end
+exit
+!===============================
