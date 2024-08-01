@@ -1,0 +1,86 @@
+!===============================
+enable
+configure terminal
+hostname RdeptoC
+!===============================Políticas y contraseñas
+security passwords min-length 8
+enable secret cisco.enable
+username admin privilege 15 password cisco.admin
+username novato privilege 0 password cisco.novato
+username intermedio privilege 1 password cisco.intermedio
+!===============================SSH
+ip domain-name ricardo.com
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+username ricardo secret cisco.ricardo
+!===============================Teletipos
+line vty 0 4
+login local
+no transport input telnet
+transport input ssh
+!===============================Cable de consola
+line console 0
+login local
+!===============================Interfaces
+interface se 0/0/1
+ip address 192.23.7.246 255.255.255.252
+no shutdown
+interface se 0/0/0
+ip address 192.23.7.249 255.255.255.252
+no shutdown
+interface fa 0/0
+no shutdown
+!===============================Subinterfaces
+interface fa 0/0.50
+encapsulation dot1q 50
+ip address 192.23.2.1 255.255.255.128
+no shutdown
+interface fa 0/0.60
+encapsulation dot1q 60
+ip address 192.23.2.129 255.255.255.128
+no shutdown
+!===============================DHCP
+ip dhcp pool datos
+network 192.23.2.0 255.255.255.128
+default-router 192.23.2.1
+ip dhcp pool voz
+network 192.23.2.128 255.255.255.128
+default-router 192.23.2.129
+!===============================Servicio de telefonía
+option 150 ip 192.23.2.129
+telephony-service
+max-dn 5
+max-ephones 5
+ip source-address 192.23.2.129 port 2000
+auto assign 1 to 5
+ephone-dn 1
+num 3001
+ephone-dn 2
+num 3002
+!===============================EIGRP
+router eigrp 100
+no auto-summary
+eigrp router-id 3.3.3.3
+network 192.23.2.0 0.0.0.127
+network 192.23.2.128 0.0.0.127
+network 192.23.7.244 0.0.0.3
+network 192.23.7.248 0.0.0.3
+passive-interface fa 0/0
+!===============================Dial peers
+dial-peer voice 1 voip
+destination-pattern 100.
+session target ipv4:192.23.7.241
+dial-peer voice 2 voip
+destination-pattern 200.
+session target ipv4:192.23.7.245
+dial-peer voice 3 voip
+destination-pattern 400.
+session target ipv4:192.23.7.250
+dial-peer voice 4 voip
+destination-pattern 500.
+session target ipv4:192.23.7.254
+!===============================
+end
+write
+exit
+!===============================

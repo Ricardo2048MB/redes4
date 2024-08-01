@@ -1,0 +1,22 @@
+!==Router D==
+enable
+configure terminal
+hostname RD
+interface gi 0/0
+ip address 172.23.3.129 255.255.255.240
+no shutdown
+interface se 0/0/1
+ip address 172.23.7.242 255.255.255.252
+no shutdown
+!
+!================================Ahora vamos con OSPF multiarea
+!
+router ospf 7
+do show ip route
+network 172.23.7.240 0.0.0.3 area 5
+network 172.23.3.128 0.0.0.15 area 5
+!
+!================================
+!
+end
+exit

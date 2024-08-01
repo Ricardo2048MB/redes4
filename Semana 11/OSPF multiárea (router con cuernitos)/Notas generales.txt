@@ -1,0 +1,22 @@
+La metrica de OSPF es el costo
+Mayor ancho de banda
+Menor metrica
+Calificada como mejor ruta
+
+¿Con que comando se evalúa el ancho de banda de una serial?
+show interface se 0/0/0
+
+con qué comando se verifica la base de datos de ospf
+
+show ip ospf database
+
+A los cuatro periodos de no contestación de los paquetes hello, ospf, se enoja jeje
+
+50 routers es el límite de routers en un área y ningpun router puede estar en más de 3 áreas
+
+él área troncal es el área 0 y siempre debe existir. también se llama el área backbone
+
+router de área perimetral, porque sus interfaces están entre áreas
+
+router limítrofe, es el que conecta con otro sistema
+

@@ -1,0 +1,56 @@
+!================================Router C
+!
+!
+enable
+configure terminal
+hostname RC
+interface gi 0/0
+!ip address 172.23.3.1 255.255.255.128 (solo debe activarse)
+no shutdown
+!
+!================================Empezamos configuración de router on a stick
+!
+interface gi 0/0.15
+encapsulation dot1q 15
+ip address 172.23.3.1 255.255.255.192
+no shutdown
+interface gi 0/0.35
+encapsulation dot1q 35
+ip address 172.23.3.65 255.255.255.192
+no shutdown
+!
+!================================Continúan las demás interfaces
+!
+interface se 0/0/0
+ip address 172.23.7.241 255.255.255.252
+no shutdown
+interface se 0/0/1
+ip address 172.23.7.246 255.255.255.252
+no shutdown
+!================================Ahora vamos con dhcp
+!
+ip dhcp pool vlan15
+network 172.23.3.0 255.255.255.192
+default-router 172.23.3.1
+dns-server 172.23.7.253
+!
+!
+!
+ip dhcp pool vlan35
+network 172.23.3.64 255.255.255.192
+default-router 172.23.3.65
+dns-server 172.23.7.253
+!
+!================================Ahora vamos con OSPF multiarea
+!
+router ospf 6
+do show ip route
+network 172.23.7.244 0.0.0.3 area 0
+network 172.23.7.240 0.0.0.3 area 5
+network 172.23.3.0 0.0.0.63 area 0
+network 172.23.3.64 0.0.0.63 area 0
+!
+!================================
+!
+end
+exit

@@ -1,0 +1,33 @@
+!================================Switch A
+!
+!
+enable
+configure terminal
+!
+!================================Creación de VLANs
+!
+vlan 15
+name sistemas
+vlan 30
+name telecom
+!
+!================================Acceso a las VLANs
+!name name telecom
+interface range fa 0/1-9
+switchport mode access
+switchport access vlan 15
+interface range fa 0/10-19
+switchport mode access
+switchport access vlan 30
+interface gi 0/1
+!switchport mode access (sic. —siento que aquí no debería existir este comando—)
+switchport mode trunk
+!
+!================================VLANs permitidas (Esto lo agregué en casa)
+!
+switchport trunk allowed vlan 15,30
+!
+!================================
+!
+end
+exit

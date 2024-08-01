@@ -1,0 +1,33 @@
+!================================Switch C
+!
+!
+enable
+configure terminal
+!
+!================================Creación de VLANs
+!
+vlan 15
+name sistemas
+vlan 35
+name mecatronica
+!
+!================================Acceso a las VLANs
+!
+interface range fa 0/1-9
+switchport mode access
+switchport access vlan 15
+interface range fa 0/10-19
+switchport mode access
+switchport access vlan 35
+interface gi 0/1
+!switchport mode access (sic. —siento que aquí no debería existir este comando—)
+switchport mode trunk
+!
+!================================VLANs permitidas (Esto lo agregué en casa)
+!
+switchport trunk allowed vlan 15,35
+!
+!================================
+!
+end
+exit
