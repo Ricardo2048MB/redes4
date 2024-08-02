@@ -1,0 +1,22 @@
+!===============================
+enable
+configure terminal
+hostname sucC
+interface gi 0/0
+ip address 172.23.18.1 255.255.255.0
+no shutdown
+interface se 0/0/0
+ip address 11.23.0.9 255.255.255.252
+clock rate 128000
+no shutdown
+interface se 0/0/1
+ip address 11.23.0.6 255.255.255.252
+no shutdown
+!===============================BGP (configuración global)
+router bgp 300
+network 172.23.18.0 mask 255.255.255.0
+neighbor 11.23.0.10 remote-as 100
+neighbor 11.23.0.5 remote-as 200
+end
+exit
+!===============================
